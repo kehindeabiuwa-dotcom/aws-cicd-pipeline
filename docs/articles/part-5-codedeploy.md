@@ -4,7 +4,7 @@ published: false
 description: "Build appspec.yml and four lifecycle hook scripts for CodeDeploy. Includes a step-by-step walkthrough of testing automatic rollback by deliberately breaking a deployment."
 tags: aws, cicd, devops, deployment
 series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/diagrams/part5-diagram.png
+cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part5-diagram.png
 canonical_url:
 ---
 
@@ -64,7 +64,7 @@ The CloudFormation template provisions:
 **Why CloudFormation instead of the AWS console?**
 Every resource created in the console exists only in that account and region, undocumented, unreproducible. A CloudFormation template is a git-committable, reviewable, reproducible record of your infrastructure. When you're done testing, `aws cloudformation delete-stack` tears everything down in the correct dependency order. No hunting for orphaned resources that generate unexpected bills.
 
-![CloudFormation console showing the stack creating resources](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p5-cloudformation-stack.png)
+![CloudFormation console showing the stack creating resources](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p5-cloudformation-stack.png)
 *CloudFormation provisioning the EC2 instance, IAM roles, and security group — all in one automated operation.*
 
 After the stack creates successfully, note the EC2 instance's public IP from the Outputs tab.
@@ -219,7 +219,7 @@ artifacts:
 **Why tags for EC2 instance targeting?**
 Tags let you define deployment targets by purpose rather than by instance ID. If you terminate and replace an EC2 instance, the new instance gets the same `role=webserver` tag and CodeDeploy automatically finds it. This is how blue-green deployments work at scale — spin up new instances with the tag, deploy to them, then remove the tag (or terminate) the old ones.
 
-![CodeDeploy deployment group showing EC2 tag filter configuration](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p5-codedeploy-group.png)
+![CodeDeploy deployment group showing EC2 tag filter configuration](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p5-codedeploy-group.png)
 *Deployment group targeting EC2 instances by tag — `role=webserver` rather than instance ID.*
 
 ---
@@ -241,7 +241,7 @@ Watch the deployment lifecycle:
 
 After the deployment succeeds, open the EC2 instance's public IP in a browser. You should see the Hello from NextWork CI/CD Pipeline! page served by Tomcat through Apache.
 
-![The web application live in a browser after deployment](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p5-webapp-live.png)
+![The web application live in a browser after deployment](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p5-webapp-live.png)
 *The deployed web application — served from Tomcat through Apache on the EC2 instance.*
 
 ---
@@ -266,7 +266,7 @@ Push, trigger a build, and create a new deployment with the broken artifact. Wit
 4. CodeDeploy automatically starts a rollback — redeploying the last successful revision from S3
 5. The application returns to the last known good state
 
-![CodeDeploy deployment showing FAILED status and an automatic rollback deployment below it](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p5-rollback.png)
+![CodeDeploy deployment showing FAILED status and an automatic rollback deployment below it](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p5-rollback.png)
 *Automatic rollback triggered — CodeDeploy creates a new rollback deployment using the last successful artifact from S3.*
 
 The key insight: rollback redeploys the **previous artifact from S3** — it does not re-run the build. Source and Build stages in CodePipeline are not re-triggered. This is why artifact versioning matters: the previous artifact must still exist in S3.

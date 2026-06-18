@@ -4,7 +4,7 @@ published: false
 description: "Set up Git on EC2, push code to GitHub with a personal access token, and establish the source control workflow that will trigger your entire AWS CI/CD pipeline automatically."
 tags: aws, git, devops, github
 series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/diagrams/part2-diagram.png
+cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part2-diagram.png
 canonical_url:
 ---
 
@@ -114,7 +114,7 @@ git push -u origin master
 | `git commit -m "..."` | Saves a snapshot of the staged changes to the local repository history |
 | `git push -u origin master` | Uploads the local `master` branch to GitHub; `-u` sets `origin/master` as the tracking branch so future pushes only need `git push` |
 
-![Terminal showing successful git push output with branch tracking](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p2-git-push-output.png)
+![Terminal showing successful git push output with branch tracking](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p2-git-push-output.png)
 *The `git push -u origin master` output confirming the branch is now tracking the remote.*
 
 ---
@@ -147,7 +147,7 @@ This is exactly the reasoning behind AWS's IAM: least-privilege, individually re
 
 When Git asks for your password during the push, paste the token instead. Git will store it in the OS credential manager so you don't need to enter it again on subsequent pushes.
 
-![GitHub personal access token generation page](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p2-github-token.png)
+![GitHub personal access token generation page](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p2-github-token.png)
 *GitHub personal access token generated — copy it immediately, it's only shown once.*
 
 ---
@@ -156,7 +156,7 @@ When Git asks for your password during the push, paste the token instead. Git wi
 
 After a successful push, go to your GitHub repository in a browser. You should see all your project files including `pom.xml`, `src/`, and `index.jsp`.
 
-![GitHub repository showing the pushed project files](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p2-github-repo-files.png)
+![GitHub repository showing the pushed project files](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p2-github-repo-files.png)
 *The GitHub repository after the first push — all project files and the initial commit message visible.*
 
 ---

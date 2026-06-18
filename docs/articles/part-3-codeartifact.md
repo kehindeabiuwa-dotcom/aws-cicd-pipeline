@@ -4,7 +4,7 @@ published: false
 description: "Set up AWS CodeArtifact as a private Maven proxy to prevent dependency confusion attacks, cache approved packages, and control exactly what your builds can download."
 tags: aws, devops, security, java
 series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/diagrams/part3-diagram.png
+cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part3-diagram.png
 canonical_url:
 ---
 
@@ -58,7 +58,7 @@ Then create a repository inside the domain:
 
 The upstream connection means: when Maven requests a dependency, CodeArtifact checks its own cache first, then fetches from Maven Central if needed, and caches it for future builds.
 
-![CodeArtifact domain and repository with Maven Central upstream configured](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p3-codeartifact-repo.png)
+![CodeArtifact domain and repository with Maven Central upstream configured](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p3-codeartifact-repo.png)
 *The CodeArtifact repository with Maven Central set as the upstream source.*
 
 ---
@@ -115,7 +115,7 @@ IAM roles provide temporary, automatically rotated credentials. Long-lived acces
 
 This is security best practice that applies to every AWS service — not just CodeArtifact.
 
-![IAM role attached to EC2 instance in the Modify IAM role dialog](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p3-iam-role-attached.png)
+![IAM role attached to EC2 instance in the Modify IAM role dialog](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p3-iam-role-attached.png)
 *Attaching the IAM role to the EC2 instance — this grants the instance permission to authenticate with CodeArtifact.*
 
 ---
@@ -184,7 +184,7 @@ mvn compile -s settings.xml
 
 Watch the output — you'll see Maven downloading packages. Now go back to the CodeArtifact console and check your repository. You should see all the downloaded dependencies listed there, cached for future builds.
 
-![CodeArtifact repository showing cached Maven dependencies](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p3-maven-deps-cached.png)
+![CodeArtifact repository showing cached Maven dependencies](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p3-maven-deps-cached.png)
 *Maven dependencies now cached in CodeArtifact — subsequent builds don't need to hit Maven Central.*
 
 This is the "pull-through cache" model in action. First build: slow (fetches from Maven Central). Every build after: fast (cached in CodeArtifact, no external call needed).
@@ -240,7 +240,7 @@ cat internal-lib.txt
 
 The SHA-256 checksum is the mechanism that verifies the package wasn't corrupted or tampered with in transit. This is how package integrity is guaranteed in professional artifact management.
 
-![CodeArtifact repository showing the published internal package](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p3-custom-package.png)
+![CodeArtifact repository showing the published internal package](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p3-custom-package.png)
 *Custom internal package published to CodeArtifact — private libraries that will never appear in Maven Central.*
 
 ---
