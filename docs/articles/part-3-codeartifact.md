@@ -8,6 +8,8 @@ cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pip
 canonical_url:
 ---
 
+![Architecture diagram for Part 3](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part3-diagram.png)
+
 # Part 3 — Secure Package Management: Why You Shouldn't Pull from Maven Central in Production
 
 **Series:** Building a Production CI/CD Pipeline on AWS (7-Part Series)

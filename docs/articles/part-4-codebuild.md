@@ -8,6 +8,8 @@ cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pip
 canonical_url:
 ---
 
+![Architecture diagram for Part 4](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part4-diagram.png)
+
 # Part 4 — Continuous Integration with AWS CodeBuild: Never Build Manually Again
 
 **Series:** Building a Production CI/CD Pipeline on AWS (7-Part Series)

@@ -8,6 +8,8 @@ cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pip
 canonical_url:
 ---
 
+![Architecture diagram for Part 1](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part1-diagram.png)
+
 # Part 1 — Setting Up a Cloud Development Environment: EC2, SSH, and VS Code
 
 **Series:** Building a Production CI/CD Pipeline on AWS (7-Part Series)

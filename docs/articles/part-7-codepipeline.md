@@ -8,6 +8,8 @@ cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pip
 canonical_url:
 ---
 
+![Architecture diagram for Part 7](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part7-diagram.png)
+
 # Part 7 — The Full CI/CD Pipeline: One Git Push, Three Stages, Zero Manual Steps
 
 **Series:** Building a Production CI/CD Pipeline on AWS (7-Part Series)

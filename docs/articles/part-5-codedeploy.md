@@ -8,6 +8,8 @@ cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pip
 canonical_url:
 ---
 
+![Architecture diagram for Part 5](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part5-diagram.png)
+
 # Part 5 — Automated Deployment with AWS CodeDeploy: Lifecycle Hooks and Rollback
 
 **Series:** Building a Production CI/CD Pipeline on AWS (7-Part Series)

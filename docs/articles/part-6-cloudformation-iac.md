@@ -8,6 +8,8 @@ cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pip
 canonical_url:
 ---
 
+![Architecture diagram for Part 6](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part6-diagram.png)
+
 # Part 6 — Infrastructure as Code with CloudFormation: Turning a 5-Hour Setup into a 5-Minute Stack
 
 **Series:** Building a Production CI/CD Pipeline on AWS (7-Part Series)
