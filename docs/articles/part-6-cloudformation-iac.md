@@ -289,7 +289,7 @@ This project uses both — CloudFormation for the CI/CD pipeline (Part 6-7), and
 
 In Part 7, we complete the pipeline by adding AWS CodePipeline — the orchestrator that connects GitHub, CodeBuild, and CodeDeploy into a single automated workflow. We'll test it with a live commit, watch the pipeline execute in real time, and demonstrate automated rollback.
 
-**[Read Part 7 → Building the Full CI/CD Pipeline: GitHub → CodeBuild → CodeDeploy with CodePipeline](#)**
+**[Read Part 7 → Building the Full CI/CD Pipeline: GitHub → CodeBuild → CodeDeploy with CodePipeline](https://dev.to/kehindeabiuwadotcom/the-full-cicd-pipeline-one-git-push-three-stages-zero-manual-steps-3e4-temp-slug-5148435?preview=4ccc739bbf0465d67317cce4b507710d8099111bcf901b2e008b8c94d0c3e8fa258969c2312a2c505a78fb98b41522e9cfde71ff119c4097737120c3)**
 
 ---
 

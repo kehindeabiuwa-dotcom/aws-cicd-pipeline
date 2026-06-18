@@ -79,7 +79,16 @@ aws-cicd-pipeline/
 │       └── s3-buckets.tf        ← Terraform S3 example with website hosting
 │
 └── docs/
-    ├── articles/                 ← 7-part article series + bonus
+    ├── articles/                 ← GitHub versions (clean markdown, no frontmatter)
+    │   ├── part-1-ec2-vscode-setup.md
+    │   ├── part-2-github-integration.md
+    │   ├── part-3-codeartifact.md
+    │   ├── part-4-codebuild.md
+    │   ├── part-5-codedeploy.md
+    │   ├── part-6-cloudformation-iac.md
+    │   ├── part-7-codepipeline.md
+    │   └── bonus-terraform-vs-cloudformation.md
+    ├── devto/                    ← Dev.to versions (with YAML frontmatter)
     │   ├── part-1-ec2-vscode-setup.md
     │   ├── part-2-github-integration.md
     │   ├── part-3-codeartifact.md
@@ -177,16 +186,14 @@ The Terraform configuration creates a private artifacts bucket and a static webs
 
 | Part | Title | Link |
 |---|---|---|
-| 1 | Setting Up a Cloud Dev Environment: EC2, SSH, and VS Code | [Read on Dev.to](#) |
-| 2 | Version Control for CI/CD: Connecting GitHub to AWS | [Read on Dev.to](#) |
-| 3 | Secure Package Management with AWS CodeArtifact | [Read on Dev.to](#) |
-| 4 | Continuous Integration with AWS CodeBuild | [Read on Dev.to](#) |
-| 5 | Automated Deployment with AWS CodeDeploy | [Read on Dev.to](#) |
-| 6 | Infrastructure as Code with CloudFormation | [Read on Dev.to](#) |
-| 7 | The Full CI/CD Pipeline: One Push, Zero Manual Steps | [Read on Dev.to](#) |
-| Bonus | Terraform vs CloudFormation: S3 Buckets Two Ways | [Read on Dev.to](#) |
-
-> Links will be updated as each article is published.
+| 1 | Setting Up a Cloud Dev Environment: EC2, SSH, and VS Code | [Read on Dev.to](https://dev.to/kehindeabiuwadotcom/setting-up-a-cloud-development-environment-ec2-ssh-and-vs-code-35i3-temp-slug-9072144?preview=10feea059748eb776a464e1366cb72b288056990efbd415549e484b5e2795706d2c4b9a7878c650a0f1711901a4ffd79ab317bdac09280d612e7d81f) |
+| 2 | Version Control for CI/CD: Connecting GitHub to AWS | [Read on Dev.to](https://dev.to/kehindeabiuwadotcom/version-control-for-your-cicd-pipeline-connecting-github-to-aws-3n9l-temp-slug-7195219?preview=8c2805396fdd9cdf155939e20e2d20ecdc56f2e5eb9c497fac2b215713cef2c3a2bb97407bf9463c154674d8a6cf8bd0674fad6fd306ca18dc484d64) |
+| 3 | Secure Package Management with AWS CodeArtifact | [Read on Dev.to](https://dev.to/kehindeabiuwadotcom/secure-package-management-why-you-shouldnt-pull-from-maven-central-in-production-542k-temp-slug-7660275?preview=1ec4a419d564b852cfe66b03ae33910c4b5768060f5e50a08c4395bcbcff37aca8c86b6df94034cba5024fb733c01178f7db6d8b0ea2d61adec4ed62) |
+| 4 | Continuous Integration with AWS CodeBuild | [Read on Dev.to](https://dev.to/kehindeabiuwadotcom/continuous-integration-with-aws-codebuild-never-build-manually-again-3ba9-temp-slug-144734?preview=bcaa17f3c84f549907ba74638d9029a5f5f3493e646609b6eed2425f20af31087eda060174624183309ad5317fea93e89e40882cc890760ad022477d) |
+| 5 | Automated Deployment with AWS CodeDeploy | [Read on Dev.to](https://dev.to/kehindeabiuwadotcom/automated-deployment-with-aws-codedeploy-lifecycle-hooks-and-rollback-2499-temp-slug-4315989?preview=544fadb2341300264753ac46750982b69661ae47cf3b30c27d601a36c7990d4d41ddfd6056506dc50cdcab866e309d2cfda481c6254379fb22b35dcb) |
+| 6 | Infrastructure as Code with CloudFormation | [Read on Dev.to](https://dev.to/kehindeabiuwadotcom/infrastructure-as-code-with-cloudformation-turning-a-5-hour-setup-into-a-5-minute-stack-46pg-temp-slug-5182566?preview=eb4d64c1ea661607c1642118b8a444da063104efe40ea8f0fbb755a16c92749719840bba4530d8e864054ef6889afd3aaae0e5b5c9e8ab1a0abca2b4) |
+| 7 | The Full CI/CD Pipeline: One Push, Zero Manual Steps | [Read on Dev.to](https://dev.to/kehindeabiuwadotcom/the-full-cicd-pipeline-one-git-push-three-stages-zero-manual-steps-3e4-temp-slug-5148435?preview=4ccc739bbf0465d67317cce4b507710d8099111bcf901b2e008b8c94d0c3e8fa258969c2312a2c505a78fb98b41522e9cfde71ff119c4097737120c3) |
+| Bonus | Terraform vs CloudFormation: S3 Buckets Two Ways | [Read on Dev.to](https://dev.to/kehindeabiuwadotcom/terraform-vs-cloudformation-creating-s3-buckets-two-ways-and-when-to-use-each-47m5-temp-slug-1404951?preview=bbffb88d2da0c5632a38dc6b84103a87c4a6135cd8f8a589fa48805f497b2814777ad2fa0abbfdc7a93c5a8e105716ed3d1c38b17ec791022bbb1086) |
 
 ---
 

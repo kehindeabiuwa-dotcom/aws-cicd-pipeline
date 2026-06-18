@@ -267,7 +267,7 @@ For a team that's already on AWS, CodeArtifact is almost always the right choice
 
 In Part 4, we set up AWS CodeBuild to automate everything we've done manually in the build phase — installing dependencies, compiling, running tests, and packaging the WAR file — triggered automatically on every push to GitHub.
 
-**[Read Part 4 → Continuous Integration with AWS CodeBuild: Automating Your Build Pipeline](#)**
+**[Read Part 4 → Continuous Integration with AWS CodeBuild: Automating Your Build Pipeline](https://dev.to/kehindeabiuwadotcom/continuous-integration-with-aws-codebuild-never-build-manually-again-3ba9-temp-slug-144734?preview=bcaa17f3c84f549907ba74638d9029a5f5f3493e646609b6eed2425f20af31087eda060174624183309ad5317fea93e89e40882cc890760ad022477d)**
 
 ---
 

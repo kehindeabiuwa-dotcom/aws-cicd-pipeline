@@ -247,7 +247,7 @@ Every component has an IAM role with scoped least-privilege permissions. No hard
 
 This is the final part of the CI/CD pipeline series. The bonus article (Part 8) compares Terraform and CloudFormation hands-on — using the same S3 bucket as the example — so you understand when to use each tool and why.
 
-**[Read the Bonus Article → Terraform vs CloudFormation: Creating S3 Buckets Two Ways and When to Use Each](#)**
+**[Read the Bonus Article → Terraform vs CloudFormation: Creating S3 Buckets Two Ways and When to Use Each](https://dev.to/kehindeabiuwadotcom/terraform-vs-cloudformation-creating-s3-buckets-two-ways-and-when-to-use-each-47m5-temp-slug-1404951?preview=bbffb88d2da0c5632a38dc6b84103a87c4a6135cd8f8a589fa48805f497b2814777ad2fa0abbfdc7a93c5a8e105716ed3d1c38b17ec791022bbb1086)**
 
 ---
 

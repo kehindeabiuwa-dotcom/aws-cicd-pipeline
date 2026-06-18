@@ -233,7 +233,7 @@ For the pipeline in Part 4, CodeBuild uses **AWS CodeConnections with a GitHub A
 
 In Part 3, we set up AWS CodeArtifact to act as a private, controlled package repository for Maven dependencies. Instead of pulling libraries directly from Maven Central — a public source you don't control — CodeArtifact acts as a secure proxy, caches approved packages, and lets you publish internal libraries.
 
-**[Read Part 3 → Secure Package Management with AWS CodeArtifact](#)**
+**[Read Part 3 → Secure Package Management with AWS CodeArtifact](https://dev.to/kehindeabiuwadotcom/secure-package-management-why-you-shouldnt-pull-from-maven-central-in-production-542k-temp-slug-7660275?preview=1ec4a419d564b852cfe66b03ae33910c4b5768060f5e50a08c4395bcbcff37aca8c86b6df94034cba5024fb733c01178f7db6d8b0ea2d61adec4ed62)**
 
 ---
 

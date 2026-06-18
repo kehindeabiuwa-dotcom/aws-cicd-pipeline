@@ -299,7 +299,7 @@ Enable versioning on the artifact bucket. Every build produces a new object, and
 
 In Part 5, we add AWS CodeDeploy — the final piece of the automated deployment puzzle. CodeDeploy takes the artifact produced by CodeBuild, copies it to the EC2 instance, and runs our lifecycle scripts to stop the old version, install dependencies, start the new version, and validate it's healthy.
 
-**[Read Part 5 → Automated Deployment with AWS CodeDeploy: Lifecycle Hooks and Rollback Strategies](#)**
+**[Read Part 5 → Automated Deployment with AWS CodeDeploy: Lifecycle Hooks and Rollback Strategies](https://dev.to/kehindeabiuwadotcom/automated-deployment-with-aws-codedeploy-lifecycle-hooks-and-rollback-2499-temp-slug-4315989?preview=544fadb2341300264753ac46750982b69661ae47cf3b30c27d601a36c7990d4d41ddfd6056506dc50cdcab866e309d2cfda481c6254379fb22b35dcb)**
 
 ---
 

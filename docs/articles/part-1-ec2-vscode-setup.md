@@ -209,7 +209,7 @@ The most important production recommendation is replacing SSH key pairs with **A
 
 In Part 2, we connect this EC2 environment to GitHub. We'll install Git, create a local repository, authenticate with a personal access token, and push our code to a remote repository — creating the source of truth that the rest of the CI/CD pipeline will monitor and build from.
 
-**[Read Part 2 → Connecting GitHub to AWS: Version Control for Your CI/CD Pipeline](#)**
+**[Read Part 2 → Connecting GitHub to AWS: Version Control for Your CI/CD Pipeline](https://dev.to/kehindeabiuwadotcom/version-control-for-your-cicd-pipeline-connecting-github-to-aws-3n9l-temp-slug-7195219?preview=8c2805396fdd9cdf155939e20e2d20ecdc56f2e5eb9c497fac2b215713cef2c3a2bb97407bf9463c154674d8a6cf8bd0674fad6fd306ca18dc484d64)**
 
 ---
 

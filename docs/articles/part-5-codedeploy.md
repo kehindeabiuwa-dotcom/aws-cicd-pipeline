@@ -299,7 +299,7 @@ For this project, `AllAtOnce` is appropriate because we have a single EC2 instan
 
 In Part 6, we take all the infrastructure we've manually created — the VPC, EC2, IAM roles, CodeBuild project, CodeDeploy deployment group — and codify it in a single CloudFormation template. Infrastructure as Code means reproducible, version-controlled, and auditable infrastructure.
 
-**[Read Part 6 → Infrastructure as Code with CloudFormation: Turning Your CI/CD Stack into a Template](#)**
+**[Read Part 6 → Infrastructure as Code with CloudFormation: Turning Your CI/CD Stack into a Template](https://dev.to/kehindeabiuwadotcom/infrastructure-as-code-with-cloudformation-turning-a-5-hour-setup-into-a-5-minute-stack-46pg-temp-slug-5182566?preview=eb4d64c1ea661607c1642118b8a444da063104efe40ea8f0fbb755a16c92749719840bba4530d8e864054ef6889afd3aaae0e5b5c9e8ab1a0abca2b4)**
 
 ---
 
