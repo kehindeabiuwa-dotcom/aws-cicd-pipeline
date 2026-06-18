@@ -1,6 +1,18 @@
 # AWS CI/CD Pipeline — Production-Grade DevOps on AWS
 
-A complete, end-to-end CI/CD pipeline built with AWS-native services. Push code to GitHub — within minutes the application is compiled, tested, and deployed to EC2. No manual steps.
+A complete, end-to-end CI/CD pipeline built entirely with AWS-native services. Push code to GitHub — within minutes it's compiled, tested, and deployed to EC2. No manual steps.
+
+![AWS](https://img.shields.io/badge/AWS-CodePipeline-FF9900?logo=amazonaws&logoColor=white)
+![IaC](https://img.shields.io/badge/IaC-CloudFormation-7B42BC)
+![Runtime](https://img.shields.io/badge/Java-8%20Corretto-ED8B00)
+![GitHub stars](https://img.shields.io/github/stars/kehindeabiuwa-dotcom/aws-cicd-pipeline?style=social)
+![GitHub forks](https://img.shields.io/github/forks/kehindeabiuwa-dotcom/aws-cicd-pipeline?style=social)
+
+![Pipeline architecture diagram — GitHub to CodeBuild to CodeDeploy to EC2](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part7-diagram.png)
+
+> 📖 **Full walkthrough:** [7-part CI/CD series on Dev.to](https://dev.to/kehindeabiuwadotcom/setting-up-a-cloud-development-environment-ec2-ssh-and-vs-code-35i3-temp-slug-9072144?preview=10feea059748eb776a464e1366cb72b288056990efbd415549e484b5e2795706d2c4b9a7878c650a0f1711901a4ffd79ab317bdac09280d612e7d81f)
+>
+> ⭐ **Found this useful?** Star the repo — it helps others discover it.
 
 **Author:** Kehinde Abiuwa | AWS Solutions Architect Professional | AZ-305
 **LinkedIn:** [linkedin.com/in/kehinde-abiuwa-b68087247](https://www.linkedin.com/in/kehinde-abiuwa-b68087247)
@@ -79,16 +91,7 @@ aws-cicd-pipeline/
 │       └── s3-buckets.tf        ← Terraform S3 example with website hosting
 │
 └── docs/
-    ├── articles/                 ← GitHub versions (clean markdown, no frontmatter)
-    │   ├── part-1-ec2-vscode-setup.md
-    │   ├── part-2-github-integration.md
-    │   ├── part-3-codeartifact.md
-    │   ├── part-4-codebuild.md
-    │   ├── part-5-codedeploy.md
-    │   ├── part-6-cloudformation-iac.md
-    │   ├── part-7-codepipeline.md
-    │   └── bonus-terraform-vs-cloudformation.md
-    ├── devto/                    ← Dev.to versions (with YAML frontmatter)
+    ├── articles/                 ← 7-part article series + bonus
     │   ├── part-1-ec2-vscode-setup.md
     │   ├── part-2-github-integration.md
     │   ├── part-3-codeartifact.md
