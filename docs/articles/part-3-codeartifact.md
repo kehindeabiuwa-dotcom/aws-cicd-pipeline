@@ -1,13 +1,3 @@
----
-title: "Secure Package Management: Why You Shouldn't Pull from Maven Central in Production"
-published: false
-description: "Set up AWS CodeArtifact as a private Maven proxy to prevent dependency confusion attacks, cache approved packages, and control exactly what your builds can download."
-tags: aws, devops, security, java
-series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part3-diagram.png
-canonical_url:
----
-
 ![Architecture diagram for Part 3](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part3-diagram.png)
 
 # Part 3 — Secure Package Management: Why You Shouldn't Pull from Maven Central in Production

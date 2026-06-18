@@ -1,13 +1,3 @@
----
-title: "Terraform vs CloudFormation: Creating S3 Buckets Two Ways (And When to Use Each)"
-published: false
-description: "Build the same S3 infrastructure in both Terraform and CloudFormation, side by side. A hands-on comparison of state management, syntax, and when to reach for each IaC tool."
-tags: aws, terraform, iac, cloudformation
-series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/bonus-diagram.png
-canonical_url:
----
-
 ![Architecture diagram for Bonus](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/bonus-diagram.png)
 
 # Bonus — Terraform vs CloudFormation: Creating S3 Buckets Two Ways (And When to Use Each)

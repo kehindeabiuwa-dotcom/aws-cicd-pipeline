@@ -1,13 +1,3 @@
----
-title: "Continuous Integration with AWS CodeBuild: Never Build Manually Again"
-published: false
-description: "Write a buildspec.yml to automate Java compilation, testing, and packaging with AWS CodeBuild — including the two build failures you will definitely hit and how to fix them."
-tags: aws, cicd, devops, codebuild
-series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part4-diagram.png
-canonical_url:
----
-
 ![Architecture diagram for Part 4](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part4-diagram.png)
 
 # Part 4 — Continuous Integration with AWS CodeBuild: Never Build Manually Again

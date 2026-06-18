@@ -1,13 +1,3 @@
----
-title: "Automated Deployment with AWS CodeDeploy: Lifecycle Hooks and Rollback"
-published: false
-description: "Build appspec.yml and four lifecycle hook scripts for CodeDeploy. Includes a step-by-step walkthrough of testing automatic rollback by deliberately breaking a deployment."
-tags: aws, cicd, devops, deployment
-series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part5-diagram.png
-canonical_url:
----
-
 ![Architecture diagram for Part 5](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part5-diagram.png)
 
 # Part 5 — Automated Deployment with AWS CodeDeploy: Lifecycle Hooks and Rollback

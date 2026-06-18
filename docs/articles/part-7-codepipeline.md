@@ -1,13 +1,3 @@
----
-title: "The Full CI/CD Pipeline: One Git Push, Three Stages, Zero Manual Steps"
-published: false
-description: "Connect CodePipeline to GitHub, CodeBuild, and CodeDeploy so a single git push triggers the entire pipeline. Includes real debugging notes from 210 minutes of troubleshooting."
-tags: aws, cicd, devops, automation
-series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part7-diagram.png
-canonical_url:
----
-
 ![Architecture diagram for Part 7](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part7-diagram.png)
 
 # Part 7 — The Full CI/CD Pipeline: One Git Push, Three Stages, Zero Manual Steps

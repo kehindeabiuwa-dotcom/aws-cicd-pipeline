@@ -1,13 +1,3 @@
----
-title: "Setting Up a Cloud Development Environment: EC2, SSH, and VS Code"
-published: false
-description: "Launch an EC2 instance, connect via SSH, and configure VS Code Remote-SSH for cloud development — the foundation of a production CI/CD pipeline on AWS."
-tags: aws, devops, beginners, cloud
-series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part1-diagram.png
-canonical_url:
----
-
 ![Architecture diagram for Part 1](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part1-diagram.png)
 
 # Part 1 — Setting Up a Cloud Development Environment: EC2, SSH, and VS Code

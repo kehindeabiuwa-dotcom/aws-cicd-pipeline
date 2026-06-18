@@ -1,13 +1,3 @@
----
-title: "Infrastructure as Code with CloudFormation: Turning a 5-Hour Setup into a 5-Minute Stack"
-published: false
-description: "Convert an entire CI/CD pipeline into a single CloudFormation template — including how to use the IaC Generator, fix circular dependency errors, and avoid the most common pitfalls."
-tags: aws, iac, cloudformation, devops
-series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part6-diagram.png
-canonical_url:
----
-
 ![Architecture diagram for Part 6](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part6-diagram.png)
 
 # Part 6 — Infrastructure as Code with CloudFormation: Turning a 5-Hour Setup into a 5-Minute Stack
