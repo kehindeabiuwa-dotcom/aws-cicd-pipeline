@@ -4,7 +4,7 @@ published: false
 description: "Launch an EC2 instance, connect via SSH, and configure VS Code Remote-SSH for cloud development — the foundation of a production CI/CD pipeline on AWS."
 tags: aws, devops, beginners, cloud
 series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part1-diagram.png
+cover_image: https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/diagrams/part1-diagram.png
 canonical_url:
 ---
 
@@ -88,7 +88,7 @@ ssh -i ~/Desktop/DevOps/NextWorkkeypair.pem ec2-user@<your-public-ipv4>
 
 When you see `[ec2-user@ip-10-0-x-x ~]$` in your terminal, you're on the server.
 
-![Terminal showing a successful SSH connection to the EC2 instance](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p1-ssh-connected.png)
+![Terminal showing a successful SSH connection to the EC2 instance](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p1-ssh-connected.png)
 *Successful SSH connection — the `[ec2-user@...]$` prompt confirms you're on the server.*
 
 ---
@@ -161,7 +161,7 @@ Host nextwork-ec2
 
 Then in VS Code, open the Command Palette (⌘+Shift+P), run **Remote-SSH: Connect to Host**, and select `nextwork-ec2`. VS Code installs a small server-side component on the EC2 instance and opens a new window connected to the remote filesystem.
 
-![VS Code connected via Remote-SSH showing the nextwork-web-project folder](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p1-vscode-remote.png)
+![VS Code connected via Remote-SSH showing the nextwork-web-project folder](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p1-vscode-remote.png)
 *VS Code connected to the EC2 instance — note the green Remote-SSH indicator in the bottom-left corner.*
 
 **Why this matters for DevOps:**
@@ -184,7 +184,7 @@ With VS Code connected, navigate to `nextwork-web-project/src/main/webapp/index.
 
 Save the file. This change will eventually flow through the entire pipeline we're building — GitHub → CodeBuild → CodeDeploy → EC2.
 
-![index.jsp open in VS Code with the edited HTML content](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p1-indexjsp-edit.png)
+![index.jsp open in VS Code with the edited HTML content](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p1-indexjsp-edit.png)
 *Editing index.jsp directly on the remote EC2 instance from VS Code.*
 
 ---

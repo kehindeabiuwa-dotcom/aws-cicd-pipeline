@@ -4,7 +4,7 @@ published: false
 description: "Convert an entire CI/CD pipeline into a single CloudFormation template — including how to use the IaC Generator, fix circular dependency errors, and avoid the most common pitfalls."
 tags: aws, iac, cloudformation, devops
 series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part6-diagram.png
+cover_image: https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/diagrams/part6-diagram.png
 canonical_url:
 ---
 
@@ -183,7 +183,7 @@ CodeBuildBasePolicy:
 
 This is a common CloudFormation pitfall. The IaC Generator captures state accurately but doesn't always produce dependency-safe templates.
 
-![CloudFormation stack showing a failure event in the Events tab](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p6-stack-failure.png)
+![CloudFormation stack showing a failure event in the Events tab](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p6-stack-failure.png)
 *A CloudFormation circular dependency error — the Events tab shows exactly which resource caused the failure.*
 
 ---
@@ -259,7 +259,7 @@ aws cloudformation deploy \
 
 The `--capabilities CAPABILITY_NAMED_IAM` flag is required when the template creates IAM resources with custom names. CloudFormation requires explicit acknowledgement that you understand the IAM implications.
 
-![CloudFormation stack in CREATE_COMPLETE status with all resources listed](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p6-stack-success.png)
+![CloudFormation stack in CREATE_COMPLETE status with all resources listed](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p6-stack-success.png)
 *The complete stack deployed successfully — every resource created in the correct dependency order from a single YAML file.*
 
 ---

@@ -4,7 +4,7 @@ published: false
 description: "Connect CodePipeline to GitHub, CodeBuild, and CodeDeploy so a single git push triggers the entire pipeline. Includes real debugging notes from 210 minutes of troubleshooting."
 tags: aws, cicd, devops, automation
 series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part7-diagram.png
+cover_image: https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/diagrams/part7-diagram.png
 canonical_url:
 ---
 
@@ -126,7 +126,7 @@ Each stage shows:
 - The commit SHA that triggered the run
 - Links to the specific CodeBuild build log or CodeDeploy deployment
 
-![CodePipeline showing all three stages in Succeeded state](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p7-pipeline-stages.png)
+![CodePipeline showing all three stages in Succeeded state](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p7-pipeline-stages.png)
 *All three pipeline stages succeeded — from GitHub commit to live deployment, fully automated.*
 
 After the pipeline succeeds, open the EC2 instance's public IP in a browser. You should see your application.
@@ -172,7 +172,7 @@ You can verify by checking the CodeDeploy deployment details — the revision S3
 - `DEPLOYMENT_FAILURE` — automatic (we have this)
 - `DEPLOYMENT_STOP_ON_ALARM` — trigger rollback when a CloudWatch alarm fires (e.g., error rate > 5%)
 
-![CodeDeploy showing a Rollback deployment in progress](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p7-rollback-deploy.png)
+![CodeDeploy showing a Rollback deployment in progress](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p7-rollback-deploy.png)
 *Auto-rollback in action — CodeDeploy redeploys the last successful artifact without any manual intervention.*
 
 ---

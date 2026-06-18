@@ -4,7 +4,7 @@ published: false
 description: "Build the same S3 infrastructure in both Terraform and CloudFormation, side by side. A hands-on comparison of state management, syntax, and when to reach for each IaC tool."
 tags: aws, terraform, iac, cloudformation
 series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/bonus-diagram.png
+cover_image: https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/diagrams/bonus-diagram.png
 canonical_url:
 ---
 
@@ -239,7 +239,7 @@ The `etag` field uses the MD5 hash of the local file. Every time you run `terraf
 
 This is the IaC philosophy applied to content: **everything is code, everything is reproducible**.
 
-![S3 console showing both buckets created by Terraform](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/bonus-s3-console.png)
+![S3 console showing both buckets created by Terraform](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/bonus-s3-console.png)
 *Both S3 buckets created by Terraform — the artifact bucket (private) and the website bucket (public).*
 
 ---

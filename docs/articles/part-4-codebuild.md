@@ -4,7 +4,7 @@ published: false
 description: "Write a buildspec.yml to automate Java compilation, testing, and packaging with AWS CodeBuild — including the two build failures you will definitely hit and how to fix them."
 tags: aws, cicd, devops, codebuild
 series: Building a Production CI/CD Pipeline on AWS
-cover_image: https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/diagrams/part4-diagram.png
+cover_image: https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/diagrams/part4-diagram.png
 canonical_url:
 ---
 
@@ -78,7 +78,7 @@ AWS CodeConnections manages the GitHub App connection. AWS rotates the credentia
 **Logs:**
 - Enable CloudWatch Logs (always — this is how you diagnose build failures)
 
-![CodeBuild project creation page showing source, environment, and artifact settings](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p4-codebuild-config.png)
+![CodeBuild project creation page showing source, environment, and artifact settings](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p4-codebuild-config.png)
 *CodeBuild project configuration — source connected to GitHub via CodeConnections, Amazon Linux environment, S3 artifacts.*
 
 ---
@@ -138,7 +138,7 @@ artifacts:
 
 The `artifacts` section defines what gets uploaded to S3 after a successful build. `discard-paths: no` preserves the directory structure — critical because `appspec.yml` references `scripts/stop_server.sh` by path, and flattening the paths would break CodeDeploy.
 
-![buildspec.yml open in VS Code showing all four build phases](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p4-buildspec-file.png)
+![buildspec.yml open in VS Code showing all four build phases](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p4-buildspec-file.png)
 *The complete `buildspec.yml` — four phases from environment setup to Maven packaging.*
 
 ---
@@ -275,7 +275,7 @@ build:
 
 Push to GitHub and run the build. CodeBuild will now run the validation script before compiling. If any required file is missing, the build fails early — exactly what CI is meant to do.
 
-![CodeBuild build history showing a successful build](https://raw.githubusercontent.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/main/screenshots/p4-build-success.png)
+![CodeBuild build history showing a successful build](https://github.com/kehindeabiuwa-dotcom/aws-cicd-pipeline/raw/main/screenshots/p4-build-success.png)
 *Build succeeded — all phases completed, the `.war` file and deployment assets are in S3.*
 
 ---
