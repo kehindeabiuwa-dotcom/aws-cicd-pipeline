@@ -1,0 +1,42 @@
+version: 0.0
+os: linux
+
+# appspec.yml tells CodeDeploy exactly what to copy from the build artifact
+# and which scripts to run at each lifecycle hook.
+#
+# Lifecycle order for an in-place EC2 deployment:
+#   ApplicationStop → BeforeInstall → AfterInstall → ApplicationStart → ValidateService
+
+files:
+  # Copy the compiled WAR into Tomcat's webapps directory so Tomcat
+  # automatically deploys it on startup.
+  - source: target/nextwork-web-project.war
+    destination: /usr/share/tomcat/webapps/
+
+hooks:
+  ApplicationStop:
+    # Gracefully stop the current version before the new one is installed.
+    # If this is the first deployment, this hook may not run.
+    - location: scripts/stop_server.sh
+      timeout: 60
+      runas: root
+
+  BeforeInstall:
+    # Install Tomcat and Apache HTTPD, set permissions, and configure
+    # Apache to proxy traffic to Tomcat (port 80 → 8080).
+    - location: scripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+
+  ApplicationStart:
+    # Start Tomcat and Apache HTTPD, and enable both to auto-start on reboot.
+    - location: scripts/start_server.sh
+      timeout: 60
+      runas: root
+
+  ValidateService:
+    # Simple health check — curl the app and fail fast if it doesn't respond.
+    # A non-zero exit code triggers automatic rollback (if enabled on the group).
+    - location: scripts/validate_service.sh
+      timeout: 30
+      runas: root

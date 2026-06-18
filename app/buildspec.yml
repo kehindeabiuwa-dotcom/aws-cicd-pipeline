@@ -1,0 +1,68 @@
+version: 0.2
+
+# This buildspec is used by AWS CodeBuild to compile, test, and package
+# the Java web application. It also authenticates with AWS CodeArtifact
+# so that Maven pulls dependencies from the private repository rather
+# than public Maven Central directly.
+
+env:
+  variables:
+    CODEARTIFACT_DOMAIN: "nextwork-devops-cicd"
+    CODEARTIFACT_REPO: "nextwork-devops-cicd"
+  parameter-store:
+    # Store your AWS account ID in SSM Parameter Store for security
+    # aws ssm put-parameter --name /cicd/account-id --value "123456789012" --type String
+    ACCOUNT_ID: "/cicd/account-id"
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto8
+    commands:
+      - echo "Installing dependencies..."
+
+  pre_build:
+    commands:
+      - echo "Pre-build started on $(date)"
+      - echo "Fetching CodeArtifact authorization token..."
+      - export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token \
+          --domain $CODEARTIFACT_DOMAIN \
+          --domain-owner $ACCOUNT_ID \
+          --query authorizationToken \
+          --output text)
+      - echo "Token retrieved successfully"
+
+  build:
+    commands:
+      - echo "Build started on $(date)"
+      - echo "Compiling the Java web application with Maven..."
+      - mvn compile -s settings.xml
+
+  post_build:
+    commands:
+      - echo "Build completed on $(date)"
+      - echo "Packaging application into WAR file..."
+      - mvn package -s settings.xml
+      - echo "Build and packaging complete"
+
+artifacts:
+  # Bundle everything CodeDeploy needs into a single artifact:
+  # - The compiled WAR file (the application itself)
+  # - appspec.yml (CodeDeploy deployment manifest)
+  # - scripts/ (lifecycle hook scripts for stop/install/start)
+  files:
+    - target/nextwork-web-project.war
+    - appspec.yml
+    - scripts/**/*
+  discard-paths: no
+
+cache:
+  paths:
+    - "/root/.m2/**/*"
+
+reports:
+  # Publish test results to CodeBuild so you can view them in the console
+  SurefireReports:
+    files:
+      - "target/surefire-reports/**/*.xml"
+    file-format: JUNITXML

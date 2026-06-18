@@ -1,0 +1,497 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Full CI/CD pipeline infrastructure for the NextWork web application.
+  Provisions: VPC, public subnet, Internet Gateway, security group, EC2 web server,
+  IAM roles (EC2 instance role, CodeBuild service role, CodeDeploy service role),
+  IAM policies (CodeArtifact read, CodeBuild managed policies), S3 artifact bucket,
+  CodeArtifact domain & repository, CodeBuild project, CodeDeploy application &
+  deployment group, and CodePipeline (Source → Build → Deploy).
+
+# ── Parameters ───────────────────────────────────────────────────────────────
+Parameters:
+  GitHubOwner:
+    Type: String
+    Description: GitHub account or organisation name (e.g. kehindeabiuwa-dotcom)
+
+  GitHubRepo:
+    Type: String
+    Default: nextwork-web-project
+    Description: GitHub repository name
+
+  GitHubBranch:
+    Type: String
+    Default: master
+    Description: Branch to watch for pipeline triggers
+
+  GitHubConnectionArn:
+    Type: String
+    Description: >
+      ARN of the AWS CodeConnections connection to GitHub.
+      Create one in the CodePipeline console under Settings → Connections.
+
+  InstanceType:
+    Type: String
+    Default: t3.micro
+    AllowedValues: [t3.micro, t3.small, t3.medium]
+    Description: EC2 instance type for the web server
+
+  LatestAmazonLinuxAmi:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
+    Description: Latest Amazon Linux 2023 AMI (resolved automatically)
+
+  KeyPairName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: EC2 key pair for SSH access (must exist in the account)
+
+# ── Resources ─────────────────────────────────────────────────────────────────
+Resources:
+
+  # ── Networking ─────────────────────────────────────────────────────────────
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: nextwork-cicd-vpc
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      Tags:
+        - Key: Name
+          Value: nextwork-cicd-public-subnet
+
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+
+  DefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn: VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  SubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref RouteTable
+
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP and SSH inbound
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: nextwork-webserver-sg
+
+  # ── IAM: EC2 Instance Role ──────────────────────────────────────────────────
+  EC2InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: nextwork-ec2-instance-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  EC2CodeArtifactPolicy:
+    Type: AWS::IAM::Policy
+    DependsOn: EC2InstanceRole
+    Properties:
+      PolicyName: nextwork-ec2-codeartifact-policy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - codeartifact:GetAuthorizationToken
+              - codeartifact:GetRepositoryEndpoint
+              - codeartifact:ReadFromRepository
+              - sts:GetServiceBearerToken
+            Resource: "*"
+            Condition:
+              StringEquals:
+                sts:AWSServiceName: codeartifact.amazonaws.com
+      Roles:
+        - !Ref EC2InstanceRole
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref EC2InstanceRole
+
+  # ── IAM: CodeBuild Service Role ─────────────────────────────────────────────
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: codebuild-nextwork-devops-cicd-service-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: sts:AssumeRole
+
+  CodeBuildBasePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    DependsOn: CodeBuildServiceRole
+    Properties:
+      ManagedPolicyName: CodeBuildBasePolicy-nextwork-devops-cicd
+      Roles:
+        - !Ref CodeBuildServiceRole
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:GetObjectVersion
+              - s3:PutObject
+            Resource:
+              - !Sub "arn:aws:s3:::${ArtifactBucket}"
+              - !Sub "arn:aws:s3:::${ArtifactBucket}/*"
+
+  CodeBuildCloudWatchPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    DependsOn: CodeBuildServiceRole
+    Properties:
+      ManagedPolicyName: CodeBuildCloudWatchLogsPolicy-nextwork-devops-cicd
+      Roles:
+        - !Ref CodeBuildServiceRole
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Resource: "*"
+
+  CodeBuildCodeArtifactPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    DependsOn: CodeBuildServiceRole
+    Properties:
+      ManagedPolicyName: CodeBuildCodeArtifactPolicy-nextwork-devops-cicd
+      Roles:
+        - !Ref CodeBuildServiceRole
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - codeartifact:GetAuthorizationToken
+              - codeartifact:GetRepositoryEndpoint
+              - codeartifact:ReadFromRepository
+              - sts:GetServiceBearerToken
+            Resource: "*"
+
+  CodeBuildCodeConnectionsPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    DependsOn: CodeBuildServiceRole
+    Properties:
+      ManagedPolicyName: CodeBuildCodeConnectionsPolicy-nextwork-devops-cicd
+      Roles:
+        - !Ref CodeBuildServiceRole
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - codeconnections:GetConnectionToken
+              - codeconnections:GetConnection
+            Resource: !Ref GitHubConnectionArn
+
+  # ── IAM: CodeDeploy Service Role ────────────────────────────────────────────
+  CodeDeployServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: nextwork-codedeploy-service-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codedeploy.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
+
+  # ── IAM: CodePipeline Service Role ──────────────────────────────────────────
+  CodePipelineServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: nextwork-codepipeline-service-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codepipeline.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: nextwork-codepipeline-policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:PutObject
+                  - s3:GetBucketVersioning
+                Resource:
+                  - !Sub "arn:aws:s3:::${ArtifactBucket}"
+                  - !Sub "arn:aws:s3:::${ArtifactBucket}/*"
+              - Effect: Allow
+                Action:
+                  - codebuild:BatchGetBuilds
+                  - codebuild:StartBuild
+                Resource: !GetAtt CodeBuildProject.Arn
+              - Effect: Allow
+                Action:
+                  - codedeploy:CreateDeployment
+                  - codedeploy:GetApplication
+                  - codedeploy:GetApplicationRevision
+                  - codedeploy:GetDeployment
+                  - codedeploy:GetDeploymentConfig
+                  - codedeploy:RegisterApplicationRevision
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - codeconnections:UseConnection
+                Resource: !Ref GitHubConnectionArn
+
+  # ── S3: Artifact Bucket ─────────────────────────────────────────────────────
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "nextwork-devops-cicd-artifacts-${AWS::AccountId}"
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  # ── CodeArtifact ────────────────────────────────────────────────────────────
+  CodeArtifactDomain:
+    Type: AWS::CodeArtifact::Domain
+    Properties:
+      DomainName: nextwork-devops-cicd
+
+  CodeArtifactRepository:
+    Type: AWS::CodeArtifact::Repository
+    Properties:
+      DomainName: !GetAtt CodeArtifactDomain.Name
+      RepositoryName: nextwork-devops-cicd
+      ExternalConnections:
+        - public:maven-central
+
+  # ── EC2: Web Server ─────────────────────────────────────────────────────────
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmazonLinuxAmi
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyPairName
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: "0"
+          SubnetId: !Ref PublicSubnet
+          GroupSet:
+            - !Ref WebServerSecurityGroup
+      Tags:
+        - Key: Name
+          Value: nextwork-webserver
+        - Key: role
+          Value: webserver
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          # Install and start the CodeDeploy agent on Amazon Linux 2023
+          dnf update -y
+          dnf install -y ruby wget
+          cd /home/ec2-user
+          REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
+          wget "https://aws-codedeploy-${REGION}.s3.${REGION}.amazonaws.com/latest/install"
+          chmod +x ./install
+          ./install auto
+          systemctl start codedeploy-agent
+          systemctl enable codedeploy-agent
+
+  # ── CodeBuild: Project ──────────────────────────────────────────────────────
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: nextwork-devops-cicd
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Source:
+        Type: GITHUB
+        Location: !Sub "https://github.com/${GitHubOwner}/${GitHubRepo}.git"
+        BuildSpec: app/buildspec.yml
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:7.0
+        EnvironmentVariables:
+          - Name: CODEARTIFACT_DOMAIN
+            Value: nextwork-devops-cicd
+          - Name: CODEARTIFACT_REPO
+            Value: nextwork-devops-cicd
+      Artifacts:
+        Type: S3
+        Location: !Ref ArtifactBucket
+        Packaging: ZIP
+        Name: BuildArtifact
+      LogsConfig:
+        CloudWatchLogs:
+          Status: ENABLED
+          GroupName: /aws/codebuild/nextwork-devops-cicd
+
+  # ── CodeDeploy ──────────────────────────────────────────────────────────────
+  CodeDeployApplication:
+    Type: AWS::CodeDeploy::Application
+    Properties:
+      ApplicationName: nextwork-webapp-build
+      ComputePlatform: Server
+
+  CodeDeployDeploymentGroup:
+    Type: AWS::CodeDeploy::DeploymentGroup
+    Properties:
+      ApplicationName: !Ref CodeDeployApplication
+      DeploymentGroupName: nextwork-devops-cicd-deploymentgroup
+      ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
+      DeploymentConfigName: CodeDeployDefault.AllAtOnce
+      Ec2TagFilters:
+        - Key: role
+          Value: webserver
+          Type: KEY_AND_VALUE
+      AutoRollbackConfiguration:
+        Enabled: true
+        Events:
+          - DEPLOYMENT_FAILURE
+          - DEPLOYMENT_STOP_ON_ALARM
+      DeploymentStyle:
+        DeploymentType: IN_PLACE
+        DeploymentOption: WITHOUT_TRAFFIC_CONTROL
+
+  # ── CodePipeline ────────────────────────────────────────────────────────────
+  CICDPipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: nextwork-devops-cicd-pipeline
+      RoleArn: !GetAtt CodePipelineServiceRole.Arn
+      PipelineType: V2
+      ExecutionMode: SUPERSEDED
+      ArtifactStore:
+        Type: S3
+        Location: !Ref ArtifactBucket
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: GitHub_Source
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Provider: CodeStarSourceConnection
+                Version: "1"
+              Configuration:
+                ConnectionArn: !Ref GitHubConnectionArn
+                FullRepositoryId: !Sub "${GitHubOwner}/${GitHubRepo}"
+                BranchName: !Ref GitHubBranch
+                OutputArtifactFormat: CODE_ZIP
+                DetectChanges: true
+              OutputArtifacts:
+                - Name: SourceArtifact
+
+        - Name: Build
+          Actions:
+            - Name: CodeBuild
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: "1"
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              InputArtifacts:
+                - Name: SourceArtifact
+              OutputArtifacts:
+                - Name: BuildArtifact
+
+        - Name: Deploy
+          Actions:
+            - Name: CodeDeploy
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CodeDeploy
+                Version: "1"
+              Configuration:
+                ApplicationName: !Ref CodeDeployApplication
+                DeploymentGroupName: !Ref CodeDeployDeploymentGroup
+              InputArtifacts:
+                - Name: BuildArtifact
+
+# ── Outputs ───────────────────────────────────────────────────────────────────
+Outputs:
+  WebAppURL:
+    Description: Public URL of the deployed web application
+    Value: !Sub "http://${WebServerInstance.PublicIp}"
+
+  PipelineName:
+    Description: Name of the CodePipeline
+    Value: !Ref CICDPipeline
+
+  ArtifactBucketName:
+    Description: S3 bucket used for build artifacts
+    Value: !Ref ArtifactBucket
+
+  CodeArtifactDomainName:
+    Description: CodeArtifact domain name
+    Value: !GetAtt CodeArtifactDomain.Name
